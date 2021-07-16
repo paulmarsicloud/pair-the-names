@@ -1,0 +1,55 @@
+<html>
+<head>
+<title style="height: 150px; font-family: Courier New, Courier, monospace;">Pair Up the Names!</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+<style class="INLINE_PEN_STYLESHEET_ID">
+    body {
+  margin: 25px;
+}
+#input {
+  height: 150px;
+  font-family: "Courier New", Courier, monospace;
+}
+#output {
+  height: 150px;
+  font-family: "Courier New", Courier, monospace;
+}
+  </style>
+</head>
+<body style="margin: 25px">
+<h1>Pair Up The Names!</h1>
+<div class="alert alert-info" role="alert">Enter the names below!</div>
+<textarea id="input" class="u-full-width" placeholder=""></textarea>
+<input id="pair" class="button-primary" type="submit" value="Pair!">
+<h2>Pair Results</h2>
+<textarea id="output" class="u-full-width" placeholder=""></textarea>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+  $('#pair').click(function() {
+    let thirdWheel;
+    let outputText = [];
+    let response = $('#input').val().split(/\n/);
+    response.sort(function() { return 0.5 - Math.random();});
+
+    if (response.length % 2 != 0) {
+    thirdWheel = response[Math.round((response.length - 1) / 2)];
+    response = response.filter(item => item !== thirdWheel);
+    }
+
+    const midPoint = Math.round((response.length - 1) / 2);
+    let responseSecondHalf = response.splice(midPoint);
+
+    for (let i = 0; i < response.length; i += 1) {
+        if (thirdWheel && i == 0) {
+            outputText.push(response[i] + " and " + responseSecondHalf[i] + " and " + thirdWheel + "\n");
+        i += 1;
+        }
+        outputText.push(response[i] + " and " + responseSecondHalf[i] + "\n");
+    }
+
+    $('#output').val(outputText.join(''));
+    $('.alert').removeClass('alert-info').addClass('alert-success').text('Done!')
+  })
+  </script>
+</html>
